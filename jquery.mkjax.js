@@ -159,6 +159,7 @@
 					self.mkjaxing = false;
 				}
 
+				document.body.scrollTop = document.documentElement.scrollTop = 0;
 				doDone(title, response);
 			};
 
