@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>mkjax 2</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="stylesheets/base.css">
+	<link rel="stylesheet" href="stylesheets/skeleton.css">
+	<link rel="stylesheet" href="stylesheets/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+</head>
+<body>
+
+
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<!-- Delete everything in this .container and get started on your own site! -->
+
+	<div class="container" id="main">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">mkjax</h1>
+			<h5 class="mkjaxable" id="subtitle">This is 2.html</h5>
+			<hr />
+		</div>
+		<div class="mkjaxable one-third column" id="left">
+			<a class="mkjaxify" href="index.html">Previous</a>
+			<script>console.log('attaching #left from 2.html');</script>
+		</div>
+		<div class="mkjaxable one-third column" id="middle">
+			mkjax will check each element of a class you specify, and on page requests, will only update those that have changed.
+		</div>
+		<div class="mkjaxable one-third column" id="right">
+            <a class="mkjaxify" href="3.html">Next</a>
+		</div>
+
+	</div><!-- container -->
+
+
+
+	<!-- JS
+	================================================== -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="javascripts/tabs.js"></script>
+        <script type="text/javascript" src="jquery.mkjax.js"></script>
+        <script type="text/javascript" src="example.js"></script>
+
+<!-- End Document
+================================================== -->
+</body>
+</html>
