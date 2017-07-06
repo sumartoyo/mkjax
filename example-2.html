@@ -8,7 +8,7 @@
 	<!-- Basic Page Needs
   ================================================== -->
 	<meta charset="utf-8">
-	<title>mkjax index</title>
+	<title>mkjax 2</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -46,17 +46,18 @@
 	<div class="container" id="main">
 		<div class="sixteen columns">
 			<h1 class="remove-bottom" style="margin-top: 40px">mkjax</h1>
-			<h5 class="mkjaxable" id="subtitle">This is index.html</h5>
+			<h5 class="mkjaxable" id="subtitle">This is example-2.html</h5>
 			<hr />
 		</div>
 		<div class="mkjaxable one-third column" id="left">
-            &nbsp;
+			<a class="mkjaxify" href="example.html">Previous</a>
+			<script>console.log('attaching #left from 2.html');</script>
 		</div>
-            <div class="mkjaxable one-third column" id="middle">
-            Like pjax, except it doesn't care about layout changes.
+		<div class="mkjaxable one-third column" id="middle">
+			mkjax will check each element of a class you specify, and on page requests, will only update those that have changed.
 		</div>
 		<div class="mkjaxable one-third column" id="right">
-            <a class="mkjaxify" href="2.html">Next</a>
+            <a class="mkjaxify" href="example-3.html">Next</a>
 		</div>
 
 	</div><!-- container -->
@@ -65,10 +66,8 @@
 
 	<!-- JS
 	================================================== -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="javascripts/tabs.js"></script>
-        <script type="text/javascript" src="jquery.mkjax.js"></script>
-        <script type="text/javascript" src="example.js"></script>
+	<script type="text/javascript" src="mkjax.js"></script>
+    <script type="text/javascript" src="example.js"></script>
 
 <!-- End Document
 ================================================== -->
