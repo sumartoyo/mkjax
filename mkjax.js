@@ -14,41 +14,16 @@
 
 var noop = function() {};
 
-var mkjax = function(linkSelector, blockSelector, paramListeners) {
+var mkjax = function(linkSelector, blockSelector, handlers) {
   if (!('history' in window)) {
     console.log('no history object in window, mkjax fallbacks to normal links.');
     return;
   }
-  if (!('fetch' in window)) {
-    console.log('no fetch object in window, mkjax fallbacks to normal links.');
-    return;
-  }
+
+  handlers = handlers instanceof Object ? handlers : {};
 
   var self = {
-    nRequests: 0,
-    listeners: Object.assign({
-      onClick: noop,
-      onLoading: noop,
-      onDone: noop,
-      onFail: noop,
-      onAlways: noop,
-    }, paramListeners),
-  };
-
-  self.bindLinks = function(linkNodes) {
-    Array.prototype.slice.call(linkNodes)
-      .filter(function(link) {
-        return link.hostname === location.hostname;
-      })
-      .forEach(function(link) {
-        link.onclick = function(event) {
-          event.preventDefault();
-          if (self.listeners.onClick(event, link) !== false) {
-            self.navigate(link.href, true);
-          }
-          return false;
-        }
-      });
+    xhr: { abort: noop },
   };
 
   self.replaceBlocks = function(url, isPushState, html) {
@@ -116,42 +91,57 @@ var mkjax = function(linkSelector, blockSelector, paramListeners) {
   };
 
   self.navigate = function(url, isPushState) {
-    if (self.listeners.onLoading(url) === false) {
-      return;
-    }
+    self.xhr.abort();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
 
-    var currentRequest = ++self.nRequests;
-    fetch(url)
-      .then(function(response) {
-        if (currentRequest != self.nRequests) return;
-
-        if (response.status >= 400) {
-          self.listeners.onFail(response);
-          self.listeners.onAlways();
+    xhr.onload = function(xhrEvent) {
+      var isContinue = true;
+      if (handlers.onLoaded instanceof Function) {
+        isContinue = handlers.onLoaded(xhr) !== false;
+      }
+      if (isContinue) {
+        self.replaceBlocks(url, isPushState, xhr.responseText);
+        if (handlers.onDone instanceof Function) {
+          handlers.onDone(xhr);
         }
-
-        else {
-          response.text()
-            .then(function(text) {
-              try {
-                self.replaceBlocks(url, isPushState, text);
-                self.listeners.onDone(response);
-              } catch(error) {
-                self.listeners.onFail(response, error);
-              }
-              self.listeners.onAlways();
-            })
-            .catch(function(error) {
-              self.listeners.onFail(response, error);
-              self.listeners.onAlways();
-            })
+        if (handlers.onAlways instanceof Function) {
+          handlers.onAlways();
         }
+      }
+    };
+
+    xhr.onerror = function(xhrEvent) {
+      if (handlers.onError instanceof Function) {
+        handlers.onError(xhr);
+      }
+      if (handlers.onAlways instanceof Function) {
+        handlers.onAlways();
+      }
+    };
+
+    xhr.send();
+    self.xhr = xhr;
+  };
+
+  self.bindLinks = function(linkNodes) {
+    Array.prototype.slice.call(linkNodes)
+      .filter(function(link) {
+        return link.hostname === location.hostname;
       })
-      .catch(function(response) {
-        if (currentRequest != self.nRequests) return;
-
-        self.listeners.onFail(response);
-        self.listeners.onAlways();
+      .forEach(function(link) {
+        link.onclick = function(clickEvent) {
+          clickEvent.preventDefault();
+          setTimeout(function() {
+            if (handlers.onClick instanceof Function) {
+              if (handlers.onClick(clickEvent, link) === false) {
+                return;
+              }
+            }
+            self.navigate(link.href, true);
+          }, 1);
+          return false;
+        }
       });
   };
 
