@@ -12,8 +12,6 @@
 *
 */
 
-var noop = function() {};
-
 var mkjax = function(linkSelector, blockSelector, handlers) {
   if (!('history' in window)) {
     console.log('no history object in window, mkjax fallbacks to normal links.');
@@ -23,7 +21,7 @@ var mkjax = function(linkSelector, blockSelector, handlers) {
   handlers = handlers instanceof Object ? handlers : {};
 
   var self = {
-    xhr: { abort: noop },
+    xhr: { abort: Function.prototype },
   };
 
   self.replaceBlocks = function(url, isPushState, html) {
